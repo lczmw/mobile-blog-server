@@ -1,7 +1,7 @@
 module.exports = {
-    isLogin: (ctx) => {
+    checkLogin: (ctx) => {
         if (ctx.session) {
-            return !!(ctx.session.user)
+            return !!(ctx.session.username)
         } else {
             return false
         }
