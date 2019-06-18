@@ -8,7 +8,9 @@ const config = {
     PASSWORD: 'sbtx6666',
     PORT: '3306',
     HOST: 'localhost'
-  }
+  },
+
+  routerPrefix: '/blog'
 }
 
 module.exports = config

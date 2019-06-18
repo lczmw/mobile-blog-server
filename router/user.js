@@ -1,5 +1,8 @@
+const { routerPrefix } = require('../config');
 const Router = require('koa-router');
-const router = new Router();
+const router = new Router({
+	prefix: routerPrefix
+});
 const controller = require('../controller/user')
 
 router.post('/user/register', controller.register);
