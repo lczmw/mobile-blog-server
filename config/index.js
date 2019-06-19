@@ -10,7 +10,9 @@ const config = {
     HOST: 'localhost'
   },
 
-  routerPrefix: '/blog'
-}
+  routerPrefix: '/blog',
+  uploadPath: 'static/upload',
+  staticPath: 'static'
+};
 
-module.exports = config
+module.exports = config;

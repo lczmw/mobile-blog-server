@@ -1,13 +1,15 @@
 const model = require('../lib/mysql.js');
+const config = require('../config');
 const md5 = require('md5');
 const { checkLogin } = require('../middlewares');
 const moment = require('moment');
 const fs = require('fs');
+const path = require('path');
 
 const register = async (ctx, next) => {
   let { name, password } = ctx.request.body;
-
-  if (!name || !password) {
+  let files = ctx.request.files;
+  if (!name || !password || JSON.stringify(files) === '{}') {
     ctx.body = {
       code: 502,
       message: '缺少必要参数'
@@ -23,7 +25,11 @@ const register = async (ctx, next) => {
       message: '用户存在'
     };
   } else {
-    let result = await model.insertData([name, md5(password), moment().format('YYYY-MM-DD HH:mm:ss')]);
+    let { avatar } = ctx.request.files;
+    let rootPath = path.resolve(__dirname, '..');
+    let avatarPath = (avatar.path || '').replace(rootPath, '');
+
+    let result = await model.insertData([name, md5(password), avatarPath, moment().format('YYYY-MM-DD HH:mm:ss')]);
     //console.dir(`result:${JSON.stringify(result)}`)
     if (result) {
       ctx.body = {
