@@ -3,6 +3,8 @@ const md5 = require('md5');
 const { checkLogin } = require('../middlewares');
 const moment = require('moment');
 const fs = require('fs');
+const path = require('path');
+const config = require('../config');
 
 const release = async ctx => {
   let isLogin = checkLogin(ctx);
@@ -42,6 +44,19 @@ const release = async ctx => {
 const getAll = async ctx => {
   let { pageIndex, pageSize } = ctx.request.body;
   let result = await model.findAllPost(pageIndex, pageSize);
+
+  result.forEach(item => {
+    if (!moment(item.moment).isBefore(moment(), 'day')) {
+      //发表时间不是今天
+      item.moment = moment(item.moment).format('HH:mm:ss');
+    }
+
+    if (item.avatar) {
+      item.avatar = `${config.staticOrigin}${item.avatar}`;
+    } else {
+      item.avatar = `${config.staticOrigin}${config.defaultAvatar}`;
+    }
+  });
   ctx.body = {
     code: 200,
     data: result

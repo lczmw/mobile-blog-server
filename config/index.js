@@ -12,7 +12,9 @@ const config = {
 
   routerPrefix: '/blog',
   uploadPath: 'static/upload',
-  staticPath: 'static'
+  staticPath: 'static',
+  staticOrigin: 'http://localhost:3000',
+  defaultAvatar: '/images/default_avatar.jpg'
 };
 
 module.exports = config;

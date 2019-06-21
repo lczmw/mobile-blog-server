@@ -26,7 +26,7 @@ const register = async (ctx, next) => {
     };
   } else {
     let { avatar } = ctx.request.files;
-    let rootPath = path.resolve(__dirname, '..');
+    let rootPath = path.resolve(__dirname, '..', config.staticPath);
     let avatarPath = (avatar.path || '').replace(rootPath, '');
 
     let result = await model.insertData([name, md5(password), avatarPath, moment().format('YYYY-MM-DD HH:mm:ss')]);
