@@ -50,6 +50,10 @@ app.use(
   })
 );
 
+// io.on('connection', socket => {
+//   global.appSocket = socket;
+//   appSocket.emit('sign out', 123);
+// });
 app.use(static(path.join(__dirname, config.staticPath)));
 
 //  路由
@@ -59,17 +63,5 @@ app.use(require('./router/article.js').routes());
 // app.use(require('./routers/signout.js').routes())
 
 app.listen(config.port);
-
-// io.on('connection', function(socket) {
-//   console.log('a user connected');
-
-//   socket.on('disconnect', function() {
-//     console.log('user disconnected');
-//   });
-
-//   socket.on('test message', function(msg) {
-//     console.log('message: ' + msg);
-//   });
-// });
 
 console.log(`listening on port ${config.port}`);

@@ -92,8 +92,39 @@ const auth = async ctx => {
   }
 };
 
+const getLoginInfo = async ctx => {
+  let isLogin = checkLogin(ctx);
+  if (isLogin) {
+    let userId = ctx.session.id;
+    let [{ id, moment, name }] = await model.findUserById([userId]);
+    let data = {
+      id,
+      moment,
+      name
+    };
+    ctx.body = {
+      code: 200,
+      data: data
+    };
+  } else {
+    ctx.body = {
+      code: 500
+    };
+  }
+};
+
+const logout = async ctx => {
+  ctx.session = null;
+  ctx.body = {
+    code: 200,
+    message: '退出成功'
+  };
+};
+
 module.exports = {
   register,
   login,
-  auth
+  auth,
+  getLoginInfo,
+  logout
 };

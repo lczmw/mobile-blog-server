@@ -63,7 +63,60 @@ const getAll = async ctx => {
   };
 };
 
+const getDetail = async ctx => {
+  let { id } = ctx.request.body;
+  if (!id) {
+    ctx.body = {
+      code: 502,
+      message: '缺少必要参数'
+    };
+    return;
+  }
+
+  try {
+    let post = await model.findPostById(id);
+    let data = {
+      ...post[0]
+    };
+    ctx.body = {
+      data,
+      code: 200
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      message: '查询错误'
+    };
+  }
+};
+
+const getComments = async ctx => {
+  let { id } = ctx.request.body;
+  if (!id) {
+    ctx.body = {
+      code: 502,
+      message: '缺少必要参数'
+    };
+    return;
+  }
+
+  try {
+    let comments = await model.findCommentById(id);
+    ctx.body = {
+      code: 200,
+      data: comments
+    };
+  } catch (error) {
+    ctx.body = {
+      code: 500,
+      message: '查询错误'
+    };
+  }
+};
+
 module.exports = {
   release,
-  getAll
+  getAll,
+  getDetail,
+  getComments
 };
